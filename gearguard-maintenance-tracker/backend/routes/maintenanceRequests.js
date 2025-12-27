@@ -1,6 +1,19 @@
 const express = require('express');
 const db = require('../db/database');
 const router = express.Router();
+// Get preventive requests for calendar
+router.get('/preventive', (req, res) => {
+  db.all(`
+    SELECT mr.*, e.name as equipment_name
+    FROM maintenance_requests mr
+    LEFT JOIN equipment e ON mr.equipment_id = e.id
+    WHERE mr.request_type = 'Preventive'
+    ORDER BY mr.scheduled_date
+  `, (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
+});
 
 // Get single maintenance request
 router.get('/:id', (req, res) => {
@@ -108,18 +121,6 @@ router.patch('/:id/stage', (req, res) => {
   });
 });
 
-// Get preventive requests for calendar
-router.get('/preventive', (req, res) => {
-  db.all(`
-    SELECT mr.*, e.name as equipment_name
-    FROM maintenance_requests mr
-    LEFT JOIN equipment e ON mr.equipment_id = e.id
-    WHERE mr.request_type = 'Preventive'
-    ORDER BY mr.scheduled_date
-  `, (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
-});
+
 
 module.exports = router;
