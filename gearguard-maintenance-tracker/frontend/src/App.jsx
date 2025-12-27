@@ -1,11 +1,23 @@
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import ForgotPassword from './pages/ForgotPassword'
+import Maintenance from './pages/Maintenance'
+import Equipment from './pages/Equipment'
+import Teams from './pages/Teams'
+import MaintenanceCalendar from './pages/MaintenanceCalendar'
+import Reports from './pages/Reports'
+import TaskActivity from './pages/TaskActivity'
+// Legacy pages
+import Assets from './pages/Assets'
+import Schedule from './pages/Schedule'
+import Logs from './pages/Logs'
+import History from './pages/History'
 import { isAuthenticated, clearToken } from './utils/auth'
 import './App.css'
+import Layout from './components/Layout'
 
 function App() {
   const navigate = useNavigate()
@@ -23,25 +35,29 @@ function App() {
 
   return (
     <div>
-      <nav className="navbar navbar-light bg-light">
-        <div className="container">
-          <Link className="navbar-brand" to="/">GearGuard</Link>
-          <div>
-            {!auth && <Link className="btn btn-outline-primary me-2" to="/login">Login</Link>}
-            {!auth && <Link className="btn btn-primary me-2" to="/register">Register</Link>}
-            {auth && <button className="btn btn-outline-secondary" onClick={handleLogout}>Logout</button>}
-          </div>
-        </div>
-      </nav>
-
-      <div className="container py-5">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot" element={/* lazy */ <ForgotPassword />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard/>} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgot" element={<ForgotPassword />} />
+          
+          {/* Main GearGuard Modules */}
+          <Route path="maintenance" element={<Maintenance />} />
+          <Route path="task-activity/:requestId" element={<TaskActivity />} />
+          <Route path="calendar" element={<MaintenanceCalendar />} />
+          <Route path="equipment" element={<Equipment />} />
+          <Route path="reporting" element={<Reports />} />
+          <Route path="teams" element={<Teams />} />
+          
+          {/* Legacy routes (keep for compatibility) */}
+          <Route path="assets" element={<Assets />} />
+          <Route path="schedule" element={<Schedule />} />
+          <Route path="logs" element={<Logs />} />
+          <Route path="history" element={<History />} />
+          <Route path="reports" element={<Reports />} />
+        </Route>
+      </Routes>
     </div>
   )
 }

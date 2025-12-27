@@ -28,6 +28,8 @@ export default function Login() {
         setError(data.message || 'Login failed')
       } else {
         localStorage.setItem('token', data.token)
+        // Notify app about auth change so UI updates without full reload
+        try { window.dispatchEvent(new Event('authChanged')) } catch (e) {}
         navigate('/')
       }
     } catch (err) {
