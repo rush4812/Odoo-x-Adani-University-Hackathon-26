@@ -38,5 +38,11 @@
 }
 
 .read-the-docs {
+  /* Minimal custom styles for centered auth cards */
+  .card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* keep existing file available for other styles */
   color: #888;
 }
