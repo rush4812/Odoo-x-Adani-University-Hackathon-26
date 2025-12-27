@@ -273,7 +273,7 @@ body {
 
 .table tbody tr:hover {
   background: var(--bg-light);
-  transform: scale(1.01);
+  /* transform: scale(1.01); */
 }
 
 .table tbody td {
